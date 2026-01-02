@@ -55,7 +55,7 @@ Honestamente isso são mais recomendações e estou aberto a qualquer ideia pra 
 -   Commits: As mensagens e descrições de commits podem ser complicadas de descrever, principalmente quando você adicionou muita coisa, por isso sempre prefira commitar de vez em quando, assim além de salvar de pouco em pouco o seu código para evitar perde-lo você também não vai ter tanta dificuldade de descrever o que ele faz, eu também uso um padrão pros meus commits e você pode usar ele como base ou se inspirar nele e criar o seu, o principal é que as mensagens sejam curtas e fáceis de entender:
 
 -   O modelo se baseia em: `tipo: descrição curta` você também pode após isso dar enter duas vezes para dar uma linha de espaço e descrever melhor o commit, um exemplo meu de commit:
-
+```
 feat: add login page and authentication system
 
 -   add /login route and HTML page
@@ -63,7 +63,7 @@ feat: add login page and authentication system
 -   add JWT token generation utility
 -   add auth middleware
 -   implement token-based authentication with jsonwebtoken
-
+```
 -   Eu geralmente gosto dos meus commits todos em inglês mas aí fica a seu critério também, os tipos de commit base que eu uso: `feat`(Para funcionalidade), `fix`(Correção de bug), `refactor`(Mudança interna sem alterar comportamento), `style` (Mudanças de formatação, geralmente só uso essa se eu realmente mudei SOMENTE o estilo, caso eu tenha feito mais algo eu uso o `feat` mesmo), `docs` (Documentação), `perf` (Melhorias de performance).
 -   Eu sei que tá ficando chato eu repetir, mas novamente, isso é SOMENTE UMA BASE, é um guia pra ficar organizado e como eu gosto de fazer, você pode usar o seu próprio ou pesquisar outros modelos.
 
@@ -87,3 +87,4 @@ feat: add login page and authentication system
 Bom, eu acho que é isso, como sempre em qualquer dúvida com qualquer coisa citada pode me perguntar, também nada que foi dito aqui é final, eu acabei escolhendo assim por gosto pessoal, e é minha primeira vez em muitas coisas que eu citei também, qualquer ideia ou proposta pra alterações estou disposto a conversar, afinal é um trabalho em dupla.
 
 Boa sorte para nós :)
+
