@@ -14,6 +14,32 @@ export default {
     },
 
     async landing(req, res) {
-        
+        const { login, password } = req.body;
+        try {
+            const result = await getEmpresaCredentials(login);
+
+            if (result.length == 0)
+                return res
+                    .status(404)
+                    .json({ error: "E-mail ou senha incorretos" });
+
+            const match = await bcrypt.compare(password, result[0].senhaHash);
+
+            if (!match)
+                return res
+                    .status(404)
+                    .json({ error: "E-mail ou senha incorretos" });
+
+            const payload = { id: result[0].idEmpresa };
+            const token = generateToken(payload);
+
+            res.cookie("reuseToken", token, {
+                httpOnly: true,
+                maxAge: env.TOKEN_EXPIRY,
+            });
+            res.json({ message: "Login realizado com sucesso!" });
+        } catch (err) {
+            res.status(500).json({ error: err });
+        }
     },
 };
