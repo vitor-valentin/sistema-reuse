@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-            const json = await res.json();
 
             // TODO: PUT NOTIFICATIONS HERE ;)
             if (res.status == 404) console.error("Credenciais Inválidas :(");

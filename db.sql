@@ -7,10 +7,12 @@ USE dbReuse;
 CREATE TABLE tbEmpresas (
     idEmpresa INT AUTO_INCREMENT PRIMARY KEY,
     ikPublica TEXT NOT NULL,
+    ikPrivada TEXT NOT NULL,
+    salt TEXT NOT NULL,
+    iv TEXT NOT NULL,
     cnpj VARCHAR(14) UNIQUE NOT NULL,
     razaoSocial VARCHAR(144) UNIQUE NOT NULL,
     nomeFantasia VARCHAR(55) UNIQUE,
-    inscricaoMunicipal VARCHAR(50) NOT NULL,
     emailCorporativo VARCHAR(255) UNIQUE NOT NULL,
     foneCorporativo VARCHAR(11) UNIQUE NOT NULL,
     nomeResponsavel VARCHAR(80) NOT NULL,
@@ -25,7 +27,7 @@ CREATE TABLE tbEmpresas (
     compEndereco VARCHAR(120),
     docComprovanteEndereco VARCHAR(120) UNIQUE NOT NULL,
     docCartaoCNPJ VARCHAR(120) UNIQUE NOT NULL,
-    docContratoSocial VARCHAR(120) UNIQUE NOT NULL,
+    docContratoSocial VARCHAR(120) UNIQUE,
     descricao TEXT,
     dataCadastro DATETIME NOT NULL,
     cadastroAtivo BOOLEAN NOT NULL
@@ -52,33 +54,6 @@ CREATE TABLE tbConfigEmpresas (
 );
 
 ------------------------------------------------------------
--- TABELA: tbSignedPreKeys
-------------------------------------------------------------
-CREATE TABLE tbSignedPreKeys (
-    idSPK INT AUTO_INCREMENT PRIMARY KEY,
-    idEmpresa INT NOT NULL,
-    spkPublica TEXT NOT NULL,
-    dataCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dataExpiracao DATETIME NOT NULL,
-    ativo BOOLEAN NOT NULL DEFAULT TRUE,
-    FOREIGN KEY (idEmpresa) REFERENCES tbEmpresas(idEmpresa)
-        ON DELETE CASCADE
-);
-
-------------------------------------------------------------
--- TABELA: tbOneTimePreKeys
-------------------------------------------------------------
-CREATE TABLE tbOneTimePreKeys (
-    idOPK INT AUTO_INCREMENT PRIMARY KEY,
-    idEmpresa INT NOT NULL,
-    opkPublica TEXT NOT NULL,
-    usada BOOLEAN NOT NULL DEFAULT FALSE,
-    dataCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (idEmpresa) REFERENCES tbEmpresas(idEmpresa)
-        ON DELETE CASCADE
-);
-
-------------------------------------------------------------
 -- TABELA: tbConversas
 ------------------------------------------------------------
 CREATE TABLE tbConversas (
@@ -100,8 +75,6 @@ CREATE TABLE tbMensagens (
     idRemetente INT NOT NULL,
     idDestinatario INT NOT NULL,
     conteudoCriptografado TEXT NOT NULL,
-    ekPublica TEXT NOT NULL,
-    idOPKUtilizada INT NULL,
     dataEnvio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     entregue BOOLEAN NOT NULL DEFAULT FALSE,
     lida BOOLEAN NOT NULL DEFAULT FALSE,
@@ -110,22 +83,6 @@ CREATE TABLE tbMensagens (
     FOREIGN KEY (idRemetente) REFERENCES tbEmpresas(idEmpresa)
         ON DELETE CASCADE,
     FOREIGN KEY (idDestinatario) REFERENCES tbEmpresas(idEmpresa)
-        ON DELETE CASCADE,
-    FOREIGN KEY (idOPKUtilizada) REFERENCES tbOneTimePreKeys(idOPK)
-        ON DELETE SET NULL
-);
-
-------------------------------------------------------------
--- TABELA: tbBackupsMsgs
-------------------------------------------------------------
-CREATE TABLE tbBackupsMsgs (
-    idBackup INT AUTO_INCREMENT PRIMARY KEY,
-    idEmpresa INT NOT NULL,
-    nomeArquivo VARCHAR(255) NOT NULL,
-    hashArquivo VARCHAR(128) NOT NULL,
-    dataCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    valido BOOLEAN NOT NULL DEFAULT TRUE,
-    FOREIGN KEY (idEmpresa) REFERENCES tbEmpresas(idEmpresa)
         ON DELETE CASCADE
 );
 
@@ -142,22 +99,6 @@ CREATE TABLE tbUsuariosSistema (
     pGerenciarCategorias BOOLEAN NOT NULL,
     pGerenciarPedidos BOOLEAN NOT NULL,
     senhaHash VARCHAR(255) NOT NULL
-);
-
-------------------------------------------------------------
--- TABELA: tbMasterWraps
-------------------------------------------------------------
-CREATE TABLE tbMasterWraps (
-    idWrap INT AUTO_INCREMENT PRIMARY KEY,
-    idUsuario INT NOT NULL,
-    wrap BLOB NOT NULL,
-    salt VARBINARY(16),
-    kdf_params JSON NOT NULL,
-    nonce VARBINARY(12) NOT NULL,
-    tag VARBINARY(16),
-    criadoEm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (idUsuario) REFERENCES tbUsuariosSistema(idUsuario)
-        ON DELETE CASCADE
 );
 
 ------------------------------------------------------------

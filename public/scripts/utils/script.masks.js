@@ -45,3 +45,9 @@ export function maskInput(input, mask) {
         input.value = result;
     });
 }
+
+export function stripMaskNumber(value) {
+    if (!value) return null;
+
+    return value.replace(/\D/g, "");
+}
