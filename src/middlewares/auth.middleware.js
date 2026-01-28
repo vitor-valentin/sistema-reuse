@@ -23,7 +23,7 @@ export function notAuth(req, res, next) {
     if (token) {
         try {
             jwt.verify(token, env.JWT_SECRET);
-            return res.status(401).json({ error: "Token já encontrado." });
+            return res.status(401).json({ error: "Token encontrado." });
         } catch (err) {
             res.clearCookie("reuseToken");
             next();
