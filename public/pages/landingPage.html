@@ -14,26 +14,40 @@
 
     <div id="header-placeholder"></div>
 
-    <!-- apresentação do sistema -->
-    <main class="container mx-auto px-4 mt-8">
-        <div class="relative w-full max-w-6xl mx-auto h-[350px] md:h-[450px] rounded-[40px] overflow-hidden flex items-center justify-center shadow-xl">
-            
-            <div class="absolute inset-0">
-                <img src="images/imagemSaudacao.png" class="w-full h-full object-cover mix-blend-overlay" alt="Background">
-            </div>
-            
-            <div class="relative z-10 text-center px-6 max-w-3xl">
-                <h2 class="text-white text-3xl md:text-5xl font-bold mb-6">
-                    O que é a <span class="text-white">Re</span><span class="text-mainblue">Use</span>?
-                </h2>
-                <p class="text-white text-base md:text-xl leading-relaxed font-light">
-                    A ReUse é uma plataforma B2B que conecta empresas que geram
-                    resíduos eletrônicos a compradores e empresas certificadas.
-                    Simplificamos a venda de lotes com segurança, transparência e agilidade.
-                </p>
-            </div>
+    <main class="container mx-auto px-4 mt-6">
+    
+    <section class="relative w-full h-55 md:h-75 rounded-[30px] overflow-hidden flex items-center justify-center shadow-sm">
+        <div class="absolute inset-0">
+            <img src="images/imagemSaudacao.png" class="w-full h-full object-cover" alt="Background ReUse">
+            <div class="absolute inset-0 mix-blend-multiply"></div>
         </div>
-    </main>
+        
+        <div class="relative z-10 text-center px-4 max-w-3xl">
+            <h2 class="text-white text-2xl md:text-4xl font-bold mb-3">
+                O que é a <span class="text-white">Re</span><span class="text-mainblue">Use</span>?
+            </h2>
+            <p class="text-white text-sm md:text-lg leading-snug font-light">
+                A ReUse é uma plataforma B2B que conecta empresas que geram
+                resíduos eletrônicos a compradores e empresas certificadas.
+                Simplificamos a venda de lotes com segurança, transparência e agilidade.
+            </p>
+        </div>
+    </section>
+
+    <div class="flex justify-between items-center mt-8 mb-6">
+        <h3 id="contador-anuncios" class="text-gray-400 text-sm font-medium">
+            Carregando anúncios...
+        </h3>
+        <button class="flex items-center gap-2 px-4 py-2 border border-blue-200 text-blue-600 rounded-xl text-sm font-medium hover:bg-blue-50 transition">
+            <i class="fa-solid fa-sliders"></i> Filtros Avançados
+        </button>
+    </div>
+
+    <div id="grid-anuncios" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        </div>
+</main>
+
+    <script src="../scripts/loadHeader.js"></script>
 </body>
 
 <script src="../scripts/loadHeader.js"></script>

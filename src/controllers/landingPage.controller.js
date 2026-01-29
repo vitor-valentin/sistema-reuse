@@ -6,7 +6,7 @@ import { publicDir } from "../utils/paths.js";
 import { env } from "../config/env.js";
 import { generateToken } from "../utils/generateToken.js";
 
-import { getAnuncios } from "../models/anuncios.models.js";
+import { getAnuncios } from "../models/anuncios.model.js";
 import { getEmpresaCredentials } from "../models/empresas.model.js";
 
 export default {
