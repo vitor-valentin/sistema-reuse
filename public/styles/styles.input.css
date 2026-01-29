@@ -4,6 +4,12 @@
     --color-lightgray: #FBFBFD;
     --color-darkblue: #343C6A;
     --color-mainblue: #2D60FF;
+    --color-lightgreen: #DCFAF8;
+    --color-green: #16DBCC;
+    --color-darkgreen: #343C6A;
+    --color-lightred: #FFE0EB;
+    --color-red: #FE5C73;
+    --color-darkred: #343C6A;
 }
 
 @font-face {

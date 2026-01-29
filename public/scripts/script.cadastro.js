@@ -1,5 +1,6 @@
 import { maskInput, stripMaskNumber } from "./utils/script.masks.js";
 import { saveStep, loadProgress, clearProgress } from "./utils/script.localstorage.js";
+import { toast } from "./utils/script.toast.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // Variables
@@ -206,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cartao_cnpj: getFileOrNull(documentsForm, "cartao_cnpj"),
             contrato_social: getFileOrNull(documentsForm, "contrato_social")
         };
+        
 
         const salt = crypto.getRandomValues(new Uint8Array(16));
         const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -247,12 +249,48 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: formDataToSend
             });
 
-            //TODO: Put notification here
-            if (res.status == 500) console.error("Erro interno do sistema")
-            else console.log("enviado :)") //Mostrar página de suscesso
+            if (res.status == 500) toast.show("Erro interno do sistema", "error");
+            else console.log("enviado :)") //TODO: Mostrar página de suscesso
         } catch (err) {
-            //TODO: Put notification here :)
-            console.error("Algo deu errado: ", err);
+            console.log(err);
+            toast.show(err, "error");
+        }
+    }
+
+    async function fillAddrByCep(cep) {
+        const pureCep = cep.replace(/\D/g, '');
+        if (pureCep.length != 8) return;
+
+        const res = await fetch(`https://viacep.com.br/ws/${pureCep}/json/`);
+        const json = await res.json();
+        
+        const estado = forms[1].querySelector('input[name="estado"]');
+        const cidade = forms[1].querySelector('input[name="cidade"]');
+        const bairro = forms[1].querySelector('input[name="bairro"]');
+        const endereco = forms[1].querySelector('input[name="endereco"]');
+
+        estado.value = json.estado;
+        cidade.value = json.localidade;
+        bairro.value = json.bairro;
+        endereco.value = json.logradouro;
+    }
+
+    function fileUpload(event) {
+        const inputId = event.target.id;
+        const label = document.querySelector(`label[for=${inputId}]`);
+        const span = label.querySelector('span');
+        const file = event.target.files[0];
+
+        try {
+            validateFile(file, 8);
+
+            span.textContent = file.name;
+            label.classList.remove("text-darkblue");
+            label.classList.add("text-darkblue/70");
+            label.classList.add("bg-mainblue/5");           
+        } catch(err) {
+            event.preventDefault();
+            toast.show(err, "error");
         }
     }
 
@@ -269,6 +307,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     selectors.forEach((selector) => {
         selector.addEventListener("click", () => changeStep(selector));
+    });
+
+    forms[1].querySelector('input[name="cep"]').addEventListener("input", 
+        async () => await fillAddrByCep(forms[1].querySelector('input[name="cep"]').value));
+
+    forms[2].querySelectorAll('input[type="file"]').forEach((input) => {
+        input.addEventListener("change", (e) => fileUpload(e));
     });
 
     loadLastSession();

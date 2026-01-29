@@ -1,3 +1,5 @@
+import { toast } from "./utils/script.toast.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const loginButton = document.getElementById("login");
     const loginForm = document.getElementById("form-login");
@@ -18,17 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(data),
             });
 
-            // TODO: PUT NOTIFICATIONS HERE ;)
-            if (res.status == 404) console.error("Credenciais Inválidas :(");
+            if (res.status == 404) toast.show("Credenciais Inválidas", "error");
             else if (res.status == 500)
-                console.error("Erro interno do sistema :(");
+                toast.show("Erro interno do sistema", "error");
             else {
-                console.log("LOGADO :)");
-                // TODO: REDIRECT TO MAIN PAGE
+                window.location.href = "http://localhost:8080/";
             }
         } catch (err) {
-            //TODO: PUT NOTIFICATION HERE ;)
-            console.error("Deu merda em: ", err);
+            toast.show(err, "error");
         }
     });
 });

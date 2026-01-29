@@ -1,5 +1,4 @@
 import path from "path";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 import { publicDir } from "../utils/paths.js";
@@ -18,7 +17,7 @@ export default {
         try {
             const result = await getEmpresaCredentials(login);
 
-            if (result.length == 0)
+            if (result.length == 0 || !result[0].cadastroAtivo)
                 return res
                     .status(404)
                     .json({ error: "E-mail ou senha incorretos" });
