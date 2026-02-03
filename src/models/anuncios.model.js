@@ -1,4 +1,4 @@
-import { query } from "../db/connection.js";
+
 
 export async function getAnuncios() {
   const sql = `
