@@ -42,4 +42,8 @@ export default {
             res.status(500).json({ error: err });
         }
     },
+
+    async loggedIn(req, res) {
+        res.status(200).json({loggedIn: true});
+    }
 };

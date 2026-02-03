@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../styles/styles.output.css" rel="stylesheet" type="text/css" />
+    <script src="https://kit.fontawesome.com/5b13c47c87.js" crossorigin="anonymous"></script>
+    <title>ReUse - Criar Anúncio</title>
+</head>
+
+<body class="bg-gray-50">
+    <div id="header-placeholder"></div>
+
+    <section class="border-b border-darkblue py-10 bg-white">
+        <div class="container mx-auto px-4 md:px-10 flex justify-between items-center">
+            <div>
+                <h1 class="font-bold text-3xl text-darkblue">Meus Anúncios</h1>
+                <p class="text-gray-500">Gerencie seus produtos e acompanhe o desempenho</p>
+            </div>
+            <button id="botaoNovoAnuncio"
+                class="px-6 py-3 bg-mainblue rounded-2xl text-white font-medium hover:brightness-110 flex items-center gap-2">
+                <i class="fa-solid fa-plus"></i> Criar novo anúncio
+            </button>
+        </div>
+    </section>
+
+    <div id="telaNovoAnuncio" style="display: none;"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+
+        <section class="w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-stronggray flex justify-between items-center bg-white sticky top-0">
+                <div>
+                    <h2 class="text-2xl font-bold text-darkblue">Criar Anúncio</h2>
+                    <p class="text-stronggray">Preencha os detalhes do novo anúncio</p>
+                </div>
+                <button id="botaoFecharModal" class="text-gray-400 hover:text-red-500 transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <form id="formAnuncio" class="p-6 overflow-y-auto space-y-6">
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <h3 class="text-sm font-semibold text-darkblue">Imagens do Produto (até 5 imagens)</h3>
+                        <label
+                            class="w-28 h-28 border-2 border-dashed border-stronggray rounded-xl flex flex-col items-center justify-center gap-1 text-stronggray cursor-pointer self-start">
+                            <input id="imagensProduto" type="file" name="imagensProduto"
+                                accept="image/png,image/jpeg,image/webp" multiple class="hidden">
+                            <i class="fa-solid fa-arrow-up text-base"></i>
+                            <span class="text-sm">Upload</span>
+                        </label>
+                        <p class="text-xs text-gray-400">PNG, JPEG ou WEBP (máx. 5MB cada)</p>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-sm text-darkblue">Nome do Produto *</label>
+                    <input type="text" name="nomeProduto" required
+                        placeholder="Ex: Placas de Circuito PCB – Lote de Alta Qualidade"
+                        class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-semibold text-sm text-darkblue">Valor Total <span
+                                class="text-stronggray font-normal">(opcional)</span></label>
+                        <input type="text" name="valorTotal" placeholder="R$ 0,00"
+                            class="bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none">
+                        <span class="text-xs text-gray-400">Deixe vazio para “a combinar”</span>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-semibold text-sm text-darkblue">Quantidade *</label>
+                        <input type="number" name="quantidade" required placeholder="150"
+                            class="bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-semibold text-sm text-darkblue">Unidade de Medida *</label>
+                        <select name="unidadeMedida" required
+                            class="bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 focus:ring-2 focus:ring-mainblue outline-none">
+                            <option value="" selected disabled>Quilogramas (Kg)</option>
+                            <option value="kg">Quilogramas (Kg)</option>
+                            <option value="ton">Toneladas (t)</option>
+                            <option value="un">Unidades</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-sm text-darkblue">Peso Total</label>
+                    <input type="text" name="pesoTotal" placeholder="Ex: 150 Kg"
+                        class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-sm text-darkblue">Descrição *</label>
+                    <textarea name="descricao" rows="4" required
+                        placeholder="Descreva os detalhes do produto, sua aplicação, características especiais, etc."
+                        class="w-full bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none resize-none"></textarea>
+                </div>
+
+                <div class="pt-6 border-t border-stronggray/50 space-y-4">
+                    <h3 class="text-sm font-semibold text-darkblue">Especificações Técnicas</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-1">
+                            <label class="font-semibold text-sm text-darkblue">Tipo *</label>
+                            <select name="tipo" required
+                                class="bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 focus:ring-2 focus:ring-mainblue outline-none">
+                                <option value="placas" selected>Placas de Circuito</option>
+                                <option value="cabos">Cabos</option>
+                                <option value="metais">Metais</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="font-semibold text-sm text-darkblue">Condição *</label>
+                            <select name="condicao" required
+                                class="bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 focus:ring-2 focus:ring-mainblue outline-none">
+                                <option value="usado-funcional" selected>Usado - Funcional</option>
+                                <option value="sucata">Sucata / Reciclável</option>
+                                <option value="novo">Novo (Estoque parado)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-1">
+                            <label class="font-semibold text-sm text-darkblue">Origem</label>
+                            <input type="text" name="origem" placeholder="Ex: Descarte industrial, Equipamentos de TI"
+                                class="bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="font-semibold text-sm text-darkblue">Composição</label>
+                            <input type="text" name="composicao" placeholder="Ex: 60% cobre, 30% plástico, 10% outros"
+                                class="bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="font-semibold text-sm text-darkblue">Modalidade de Coleta *</label>
+                        <select name="modalidadeColeta" required
+                            class="bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-700 focus:ring-2 focus:ring-mainblue outline-none">
+                            <option value="agendamento" selected>Disponível para agendamento</option>
+                            <option value="entrega">Entrega no local</option>
+                            <option value="retirada">Retirada imediata</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-stronggray/50 flex justify-end gap-3">
+                    <button type="button" onclick="document.getElementById('telaNovoAnuncio').style.display='none'"
+                        class="px-6 py-2 border border-stronggray rounded-xl font-semibold text-gray-600 hover:bg-gray-50">Cancelar</button>
+                    <button type="submit"
+                        class="px-6 py-2 bg-mainblue text-white rounded-xl font-bold hover:brightness-110 shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Criar Anúncio
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script src="../scripts/loadHeader.js"></script>
+    <script src="../scripts/anuncie.js"></script>
+</body>
+
+</html>

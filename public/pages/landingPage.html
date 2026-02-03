@@ -10,39 +10,45 @@
     <title>ReUse - Pág. Inicial</title>
 </head>
 
-<body class="max-h-100">
-    <header class="flex border-b border-darkblue pb-8">
-        <div class="flex items-center hover:cursor-pointer ml-20">
-            <img src="images/favicon.ico" class="w-20 flex-row mt-5">
-            <h1 class="ml-3 mt-8"><span class="font-bold text-5xl text-mainblue">Re</span><span
-                    class="text-darkblue font-bold text-5xl mt-8">Use</span></h1>
-        </div>
-        <input placeholder="Buscar resíduos eletrônicos, placas, componentes..."
-            class="w-200 h-11 bg-darkergray rounded-2xl text-center mt-12 ml-70 focus:outline-0 focus:placeholder-transparent"> <!-- barra de pesquisa -->
-        <img src="images/notification 1.png" class="w-8 h-8 mt-14 ml-30 hover:cursor-pointer">
-        <div class="flex items-center mt-11 "> <!-- botoes -->
-            <button class="w-30 h-10 border border-mainblue bg-white rounded-3xl text-mainblue font-bold ml-10 hover:cursor-pointer">
-                Entrar
-            </button>
-            <button class="w-30 h-10 bg-mainblue rounded-3xl  text-white font-bold ml-5 hover:cursor-pointer">
-                Anuncie
-            </button>
-        </div>
-    </header>
+<body>
 
-    <!-- apresentação do sistema -->
-    <div class="flex items-center justify-center">
-        <h1 class="absolute top-60"><span class="font-bold text-5xl text-white">O que é a Re</span>
-            <span class="text-mainblue font-bold text-5xl mt-8">Use</span>
-            <span class="text-white font-bold text-5xl mt-8">?</span>
-        </h1>
-        <img src="images/imagemSaudacao.png" class="mt-10 h-85">
-        <h1 class="absolute text-2xl text-center top-80 text-white font-medium">A ReUse é uma plataforma B2B que conecta empresas que geram<br>
-            resíduos eletrônicos a compradores e empresas certificadas.<br>Simplificamos a venda de lotes com segurança,
-            transparência e agilidade.
-        </h1>    
+    <div id="header-placeholder"></div>
+
+    <main class="container mx-auto px-4 mt-6">
+    
+    <section class="relative w-full h-55 md:h-75 rounded-[30px] overflow-hidden flex items-center justify-center shadow-sm">
+        <div class="absolute inset-0">
+            <img src="images/imagemSaudacao.png" class="w-full h-full object-cover" alt="Background ReUse">
+            <div class="absolute inset-0 mix-blend-multiply"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-3xl">
+            <h2 class="text-white text-2xl md:text-4xl font-bold mb-3">
+                O que é a <span class="text-white">Re</span><span class="text-mainblue">Use</span>?
+            </h2>
+            <p class="text-white text-sm md:text-lg leading-snug font-light">
+                A ReUse é uma plataforma B2B que conecta empresas que geram
+                resíduos eletrônicos a compradores e empresas certificadas.
+                Simplificamos a venda de lotes com segurança, transparência e agilidade.
+            </p>
+        </div>
+    </section>
+
+    <div class="flex justify-between items-center mt-8 mb-6">
+        <h3 id="contador-anuncios" class="text-gray-400 text-sm font-medium">
+            Carregando anúncios...
+        </h3>
+        <button class="flex items-center gap-2 px-4 py-2 border border-blue-200 text-blue-600 rounded-xl text-sm font-medium hover:bg-blue-50 transition">
+            <i class="fa-solid fa-sliders"></i> Filtros Avançados
+        </button>
     </div>
 
+    <div id="grid-anuncios" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        </div>
+</main>
+
+    <script src="../scripts/loadHeader.js"></script>
 </body>
 
+<script src="../scripts/loadHeader.js"></script>
 </html>

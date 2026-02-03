@@ -4,7 +4,8 @@
     --color-lightgray: #FBFBFD;
     --color-darkblue: #343C6A;
     --color-mainblue: #2D60FF;
-    --color-darkergray: #F1F1F1
+    --color-darkergray: #F1F1F1;
+    --color-stronggray: #ADADAD;
 }
 
 @font-face {
