@@ -9,6 +9,8 @@ router.get("/", landingPageController.getPage);
 
 router.get("/auth/check", landingPageController.checkAuth);
 
+router.get("/api/anuncios", landingPageController.list);
+
 router.post("/credentials", notAuth, landingPageController.landing);
 
 export default router;

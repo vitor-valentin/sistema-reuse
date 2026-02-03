@@ -31,7 +31,7 @@
         <section class="w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-6 border-b border-stronggray flex justify-between items-center bg-white sticky top-0">
                 <div>
-                    <h2 class="text-2xl font-bold text-darkblue">Criar Anúncio</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">Criar Anúncio</h2>
                     <p class="text-stronggray">Preencha os detalhes do novo anúncio</p>
                 </div>
                 <button id="botaoFecharModal" class="text-gray-400 hover:text-red-500 transition-colors">
@@ -43,14 +43,15 @@
                 <div class="space-y-3">
                     <div class="space-y-1">
                         <h3 class="text-sm font-semibold text-darkblue">Imagens do Produto (até 5 imagens)</h3>
-                        <label
-                            class="w-28 h-28 border-2 border-dashed border-stronggray rounded-xl flex flex-col items-center justify-center gap-1 text-stronggray cursor-pointer self-start">
-                            <input id="imagensProduto" type="file" name="imagensProduto"
-                                accept="image/png,image/jpeg,image/webp" multiple class="hidden">
-                            <i class="fa-solid fa-arrow-up text-base"></i>
+                        <label id="uploadLabel"
+                            class="w-32 h-32 border-2 border-dashed border-stronggray rounded-2xl flex flex-col items-center justify-center gap-2 text-stronggray cursor-pointer self-start">
+                            <input type="file" name="imagens_produto" accept="image/png,image/jpeg,image/webp" multiple
+                                class="hidden">
+                            <i class="fa-solid fa-arrow-up-from-bracket text-lg"></i>
                             <span class="text-sm">Upload</span>
                         </label>
                         <p class="text-xs text-gray-400">PNG, JPEG ou WEBP (máx. 5MB cada)</p>
+                        <div id="previewAnexos" class="flex flex-wrap gap-3"></div>
                     </div>
                 </div>
 
@@ -125,7 +126,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="flex flex-col gap-1">
                             <label class="font-semibold text-sm text-darkblue">Origem</label>
-                            <input type="text" name="origem" placeholder="Ex: Descarte industrial, Equipamentos de TI"
+                            <input type="text" name="origem"
+                                placeholder="Ex: Descarte industrial, Equipamentos de TI"
                                 class="bg-gray-100 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:ring-2 focus:ring-mainblue outline-none">
                         </div>
                         <div class="flex flex-col gap-1">
