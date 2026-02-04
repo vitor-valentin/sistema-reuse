@@ -7,5 +7,6 @@ const router = Router();
 
 router.get("/", notAuth, loginController.getPage);
 router.post("/api/credentials", notAuth, loginController.login);
+router.get("/api/checkLogin", auth, loginController.loggedIn);
 
 export default router;
