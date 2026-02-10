@@ -1,12 +1,14 @@
 import { db } from "../config/database.js";
 
 function parseCurrency(value) {
-  if (!value) return null;
+  if (value === undefined || value === null || value === "") return null;
+
   const normalized = value
     .toString()
     .replace(/[^\d,.-]/g, "")
     .replace(/\./g, "")
     .replace(",", ".");
+
   const parsed = Number.parseFloat(normalized);
   return Number.isNaN(parsed) ? null : parsed;
 }
@@ -23,8 +25,8 @@ function mapCondicao(condicao) {
 function mapModalidade(modalidade) {
   const mapa = {
     agendamento: "Disponível para Agendamento",
-    entrega: "Entrega Direta em Endereço",
-    retirada: "Entrega Direta em Endereço",
+    entrega: "Entrega no Local",
+    retirada: "Retirada Imediata",
   };
   return mapa[modalidade] || "Disponível para Agendamento";
 }
@@ -84,14 +86,33 @@ export async function getAnuncios() {
   return rows;
 }
 
-export async function insertAnuncio(data, files = []) {
+/**
+ * @param {number} idEmpresa - idEmpresa da empresa logada
+ * @param {object} data - dados do form (req.body)
+ * @param {Array} files - arquivos do multer (req.files)
+ */
+export async function insertAnuncio(idEmpresa, data, files = []) {
   try {
+    if (!idEmpresa) {
+      return "Empresa não identificada. Faça login novamente.";
+    }
+
+    // Se seu select manda "placas/cabos/metais" no campo name="tipo",
+    // isso funciona perfeito:
     const categoriaId = await resolveCategoriaId(data.tipo);
     if (!categoriaId) return "Categoria não encontrada.";
 
     const valorTotal = parseCurrency(data.valorTotal);
+
     const quantidade = Number.parseInt(data.quantidade, 10);
-    const pesoTotal = Number.parseInt(data.pesoTotal, 10) || 0;
+    if (!Number.isFinite(quantidade) || quantidade < 0) {
+      return "Quantidade inválida.";
+    }
+
+    const pesoTotal = Number.parseFloat(
+      (data.pesoTotal ?? "").toString().replace(",", ".")
+    );
+    const pesoFinal = Number.isFinite(pesoTotal) && pesoTotal >= 0 ? pesoTotal : 0;
 
     const [result] = await db.query(
       `INSERT INTO tbAnuncios (
@@ -110,12 +131,12 @@ export async function insertAnuncio(data, files = []) {
         status
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        null, // ajuste depois quando tiver empresa logada
+        idEmpresa,
         data.nomeProduto,
         valorTotal,
         quantidade,
         data.unidadeMedida,
-        pesoTotal,
+        pesoFinal,
         data.descricao,
         categoriaId,
         mapCondicao(data.condicao),

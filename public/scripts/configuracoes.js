@@ -98,3 +98,27 @@ async function enviarConfiguracoes(formData) {
 
     alert(result.message);
 }
+
+const btnLogout = document.getElementById("btnLogout");
+
+if (btnLogout) {
+  btnLogout.addEventListener("click", async () => {
+    const confirmLogout = confirm("Tem certeza que deseja sair da sua conta?");
+    if (!confirmLogout) return;
+
+    try {
+      const response = await fetch("/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao realizar logout");
+      }
+
+      window.location.href = "/login";
+    } catch (err) {
+      alert("Não foi possível sair da conta.");
+    }
+  });
+}

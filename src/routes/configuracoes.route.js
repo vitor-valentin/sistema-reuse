@@ -1,6 +1,5 @@
 import configuracoesController from "../controllers/configuracoes.controller.js";
 import { Router } from "express";
-import { auth, notAuth } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 

@@ -23,7 +23,7 @@
         </div>
     </section>
 
-    <section class="container w-300 ml-80 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-2 gap-6">
+    <section class="container w-300 ml-45 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-2 gap-6">
 
         <div class="col-span-2 flex items-center gap-3 mb-2">
             <div class="flex items-center justify-center w-10 h-10 rounded-full bg-mainblue/10">
@@ -80,7 +80,7 @@
 
     </section>
 
-    <section class="container w-300 ml-80 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-2 gap-6">
+    <section class="container w-300 ml-45 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-2 gap-6">
 
         <div class="col-span-2 flex items-center gap-3 mb-2">
             <div class="flex items-center justify-center w-10 h-10 rounded-full bg-mainblue/10">
@@ -138,7 +138,7 @@
 
     </section>
 
-    <section class="container w-300 ml-80 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-1 gap-6">
+    <section class="container w-300 ml-45 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-1 gap-6">
 
         <div class="flex items-center gap-3">
             <div class="flex items-center justify-center w-10 h-10 rounded-full bg-mainblue/10">
@@ -163,8 +163,7 @@
 
     </section>
 
-
-    <section class="container w-300 ml-80 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-1 gap-6">
+    <section class="container w-300 ml-45 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-1 gap-6">
 
         <div class="flex items-center gap-3">
             <div class="flex items-center justify-center w-10 h-10 rounded-full bg-mainblue/10">
@@ -209,14 +208,25 @@
 
     </section>
 
-    <section class="container w-300 ml-80 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-1 gap-6">
+    <section class="container w-300 ml-45 mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-2 gap-6">
 
-        <div class="grid grid-cols-2 gap-6">
+        <div class="col-span-2 flex items-center gap-3">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-mainblue/10">
+                <i class="fa-solid fa-shield-halved text-mainblue text-lg"></i>
+            </div>
+
+            <div>
+                <p class="text-sm font-bold text-darkblue">Segurança</p>
+                <p class="text-xs text-gray-500">Proteja sua conta</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6 col-span-2">
 
             <div class="flex flex-col gap-2">
                 <label class="text-sm font-bold text-darkblue">Senha Atual</label>
                 <input id="senhaAtual" type="password"
-                    class="h-10 rounded-lg bg-lightgray px-4 focus:outline-none focus:ring-2 focus:ring-mainblue">
+                    class="h-10 rounded-lg bg-darkergray px-4 focus:outline-none focus:ring-2 focus:ring-mainblue">
             </div>
 
             <div class="flex flex-col gap-2">
@@ -224,14 +234,12 @@
                 <label class="text-sm font-bold text-darkblue">Senha Nova</label>
 
                 <input id="senhaNova" type="password"
-                    class="h-10 rounded-lg bg-lightgray px-4 focus:outline-none focus:ring-2 focus:ring-mainblue">
+                    class="h-10 rounded-lg bg-darkergray px-4 focus:outline-none focus:ring-2 focus:ring-mainblue">
 
                 <div class="flex justify-end mt-2">
                     <button type="button" onclick="trocarSenha()"
                         class="px-5 py-2 rounded-lg bg-mainblue text-white text-sm font-semibold hover:opacity-90 transition">
-
                         Alterar Senha
-
                     </button>
                 </div>
 
@@ -239,17 +247,103 @@
 
         </div>
 
-
-        <div id="toggle-2fa"></div>
+        <div id="toggle-2fa" class="col-span-2"></div>
 
     </section>
 
+    <section
+        class="container w-full max-w-300 mx-auto mt-10 p-6 border border-stronggray rounded-2xl grid grid-cols-1 gap-6">
+        <div class="flex items-center gap-3">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-mainblue/10 shrink-0">
+                <i class="fa-solid fa-palette text-mainblue text-lg"></i>
+            </div>
 
+            <div class="min-w-0">
+                <p class="text-sm font-bold text-darkblue">Aparência</p>
+                <p class="text-xs text-gray-500">Customize a interface</p>
+            </div>
+        </div>
+
+        <label class="text-sm font-bold text-darkblue">Tema</label>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <input id="tema-claro" name="tema" type="radio" class="peer sr-only" checked />
+                <label for="tema-claro" class="block cursor-pointer w-full border border-stronggray rounded-2xl p-4 transition
+               hover:border-mainblue
+               peer-checked:border-mainblue peer-checked:ring-2 peer-checked:ring-mainblue/30
+               peer-checked:[&_.check]:opacity-100
+               peer-checked:[&_.dot]:bg-mainblue/10
+               peer-checked:[&_.dot]:border-mainblue">
+                    <div class="w-full h-30 rounded-2xl bg-white border border-stronggray"></div>
+
+                    <div class="mt-2 flex items-center justify-between">
+                        <span class="text-1x1 text-gray-500">Claro</span>
+
+                        <span
+                            class="dot inline-flex items-center justify-center w-6 h-6 rounded-full border border-stronggray">
+                            <i class="check fa-solid fa-check text-mainblue text-xs opacity-0 transition"></i>
+                        </span>
+                    </div>
+                </label>
+            </div>
+
+            <div>
+                <input id="tema-escuro" name="tema" type="radio" class="peer sr-only" />
+                <label for="tema-escuro" class="block cursor-pointer w-full border border-stronggray rounded-2xl p-4 transition
+               hover:border-mainblue
+               peer-checked:border-mainblue peer-checked:ring-2 peer-checked:ring-mainblue/30
+               peer-checked:[&_.check]:opacity-100
+               peer-checked:[&_.dot]:bg-mainblue/10
+               peer-checked:[&_.dot]:border-mainblue">
+                    <div class="w-full h-30 rounded-2xl bg-darkblue rounded-2xl"></div>
+
+                    <div class="mt-2 flex items-center justify-between">
+                        <span class="text-1x1 text-gray-500">Escuro</span>
+
+                        <span
+                            class="dot inline-flex items-center justify-center w-6 h-6 rounded-full border border-stronggray">
+                            <i class="check fa-solid fa-check text-mainblue text-xs opacity-0 transition"></i>
+                        </span>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </section>
+
+   <!-- ✅ Barra inferior (Logout à esquerda | Cancelar/Salvar à direita) -->
+<section class="container w-full max-w-300 mx-auto mt-10 mb-10">
+  <div class="flex items-center justify-between gap-4">
+    
+    <!-- Logout (lado inverso) -->
+    <button id="btnLogout" type="button"
+      class="px-6 py-2 rounded-xl border border-red-500 text-red-500 bg-white hover:bg-red-50 transition flex items-center gap-2">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Sair da conta
+    </button>
+
+    <!-- Ações -->
+    <div class="flex items-center gap-4">
+      <button id="btnCancelarAlteracoes" type="button"
+        class="px-6 py-2 rounded-xl border border-stronggray text-darkblue bg-white hover:bg-gray-50 transition">
+        Cancelar
+      </button>
+
+      <button id="btnSalvarAlteracoes" type="button"
+        class="px-6 py-2 rounded-xl bg-mainblue text-white font-semibold hover:opacity-90 transition flex items-center gap-2">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Salvar Alterações
+      </button>
+    </div>
+
+  </div>
+</section>
+
+    <script src="../scripts/tema.js"></script>
     <script src="../scripts/loadHeader.js"></script>
     <script src="../scripts/configuracoes.js"></script>
     <script src="../scripts/loadToggle.js"></script>
     <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
-
 
 </body>
 
