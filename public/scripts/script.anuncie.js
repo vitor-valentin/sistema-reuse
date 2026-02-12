@@ -10,14 +10,36 @@ const MAX_FILES = 5;
 let selectedFiles = [];
 let previewUrls = [];
 
+const inputPreco = document.getElementById("valorTotal");
+const MAX = 50000;
+
+if (inputPreco) {
+  inputPreco.addEventListener("input", () => {
+    let raw = inputPreco.value.replace(/\D/g, "");
+
+    let valor = Number(raw) / 100;
+
+    if (valor > MAX) {
+      valor = MAX;
+    }
+
+    inputPreco.value = valor.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+  });
+}
+
+
+
 function clampNonNegativeNumber(el, { integer = false } = {}) {
   if (!el) return;
 
   let v = (el.value ?? "").toString();
 
-  v = v.replace(/[eE+\-]/g, ""); 
-  v = v.replace(",", ".");       
-  v = v.replace(/[^0-9.]/g, ""); 
+  v = v.replace(/[eE+\-]/g, "");
+  v = v.replace(",", ".");
+  v = v.replace(/[^0-9.]/g, "");
 
   const parts = v.split(".");
   if (parts.length > 2) v = parts[0] + "." + parts.slice(1).join("");
@@ -88,7 +110,7 @@ function attachCurrencyMask(input) {
 
   try {
     input.type = "text";
-  } catch (_) {}
+  } catch (_) { }
 
   input.setAttribute("inputmode", "numeric");
   input.setAttribute("autocomplete", "off");
@@ -228,7 +250,7 @@ form.onsubmit = async (e) => {
 
   const valorInput = form.querySelector('[name="valorTotal"]');
   if (valorInput && valorInput.value) {
-    valorInput.value = brlToNumberString(valorInput.value); 
+    valorInput.value = brlToNumberString(valorInput.value);
   }
 
   const formData = new FormData(form);

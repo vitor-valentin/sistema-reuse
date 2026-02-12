@@ -28,8 +28,8 @@
                     O que é a <span class="text-white">Re</span><span class="text-mainblue">Use</span>?
                 </h2>
                 <p class="text-white text-sm md:text-lg leading-snug font-light">
-                    A ReUse é uma plataforma B2B que conecta empresas que geram
-                    resíduos eletrônicos a compradores e empresas certificadas.
+                    A ReUse é uma plataforma B2B que conecta empresas que geram resíduos eletrônicos
+                    a compradores e empresas certificadas.
                     Simplificamos a venda de lotes com segurança, transparência e agilidade.
                 </p>
             </div>
@@ -39,19 +39,181 @@
             <h3 id="contador-anuncios" class="text-gray-400 text-sm font-medium">
                 Carregando anúncios...
             </h3>
-            <button
-                class="flex items-center gap-2 px-4 py-2 border border-blue-200 text-blue-600 rounded-xl text-sm font-medium hover:bg-blue-50 transition">
+
+            <button id="openFilter"
+                class="flex items-center gap-2 px-4 py-2 border-2 border-mainblue text-blue-600 rounded-xl text-sm font-medium hover:bg-blue-50 transition">
                 <i class="fa-solid fa-sliders"></i> Filtros Avançados
             </button>
         </div>
 
         <div id="listaAnuncios" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-        <p id="anunciosVazio" class="hidden text-gray-500 mt-4">Nenhum anúncio disponível no momento.</p>
+        <p id="anunciosVazio" class="hidden text-gray-500 mt-4">
+            Nenhum anúncio disponível no momento.
+        </p>
     </main>
 
+    <div id="filterOverlay" class="fixed inset-0 bg-black/25 backdrop-blur-md backdrop-saturate-150 backdrop-brightness-90
+         opacity-0 pointer-events-none transition-all duration-300 z-40">
+    </div>
+
+    <aside id="filterPanel" class="fixed top-0 right-0 h-dvh w-90 max-w-[92vw] bg-white shadow-2xl z-50
+               translate-x-full transition-transform duration-200
+               flex flex-col">
+
+        <div class="p-4 border-b border-stronggray flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-gray-800">Filtros Avançados</h2>
+            <button id="closeFilter" class="p-2 rounded-xl hover:bg-gray-200">
+                <i class="fa-solid fa-xmark text-gray-700"></i>
+            </button>
+        </div>
+
+        <div class="p-4 overflow-y-auto flex-1 space-y-6">
+
+            <div>
+                <p class="font-semibold text-darkblue mb-3">Categoria</p>
+                <div class="space-y-2 text-darkblue">
+                    <label class="flex items-center gap-3">
+                        <input type="radio" name="categoria" value="Placas de Circuito"
+                            class="h-4 w-4 accent-mainblue" />
+                        <span>Placas de Circuito</span>
+                    </label>
+
+                    <label class="flex items-center gap-3">
+                        <input type="radio" name="categoria" value="Computadores" class="h-4 w-4 accent-mainblue" />
+                        <span>Computadores</span>
+                    </label>
+
+                    <label class="flex items-center gap-3">
+                        <input type="radio" name="categoria" value="Baterias" class="h-4 w-4 accent-mainblue" />
+                        <span>Baterias</span>
+                    </label>
+
+                    <label class="flex items-center gap-3">
+                        <input type="radio" name="categoria" value="Cabos e Fios" class="h-4 w-4 accent-mainblue" />
+                        <span>Cabos e Fios</span>
+                    </label>
+
+                    <label class="flex items-center gap-3">
+                        <input type="radio" name="categoria" value="Monitores" class="h-4 w-4 accent-mainblue" />
+                        <span>Monitores</span>
+                    </label>
+
+                    <label class="flex items-center gap-3">
+                        <input type="radio" name="categoria" value="Periféricos" class="h-4 w-4 accent-mainblue" />
+                        <span>Periféricos</span>
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <p class="font-semibold text-darkblue mb-3">Estado de Conservação</p>
+                <select id="conservacaoSelect"
+                    class="w-full bg-darkergray focus:outline-none focus:ring-2 focus:ring-mainblue rounded-lg p-2 text-darkblue">
+                    <option value="">Selecionar estado</option>
+                    <option value="usado">Usado - Funcional</option>
+                    <option value="sucata">Sucata / Reciclável</option>
+                    <option value="novo">Novo (Estoque parado)</option>
+                </select>
+            </div>
+
+            <div>
+                <p class="font-semibold text-darkblue mb-3">Faixa de Preço</p>
+
+                <input id="precoMaxRange" type="range" min="0" max="50000" value="50000" step="50"
+                    class="w-full accent-mainblue" />
+
+                <div class="flex justify-between text-xs text-gray-500 mt-2">
+                    <span>Mínimo</span>
+                    <span>Máximo</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mt-2">
+                    <div class="bg-darkergray rounded-lg px-3 py-2 flex items-center gap-2">
+                        <span class="text-darkblue text-sm">R$</span>
+                        <input id="precoMinInput" type="number" min="0" max="50000" step="50" value="0"
+                            class="w-full bg-transparent outline-none text-darkblue" />
+                    </div>
+
+                    <div class="bg-darkergray rounded-lg px-3 py-2 flex items-center gap-2">
+                        <span class="text-darkblue text-sm">R$</span>
+                        <input id="precoMaxInput" type="number" min="0" max="50000" step="50" value="50000"
+                            class="w-full bg-transparent outline-none text-darkblue" />
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <p class="font-semibold text-darkblue mb-3">Quantidade</p>
+                <select id="quantidadeSelect"
+                    class="w-full bg-darkergray focus:outline-none focus:ring-2 focus:ring-mainblue rounded-lg p-2 text-darkblue">
+                    <option value="">Qualquer quantidade</option>
+                    <option value="1-10">1 a 10</option>
+                    <option value="11-50">11 a 50</option>
+                    <option value="51-100">51 a 100</option>
+                    <option value="100+">Acima de 100</option>
+                </select>
+            </div>
+
+            <div>
+                <p id="estadoSelect" class="font-semibold text-darkblue mb-3">Estado</p>
+                <select
+                    class="w-full bg-darkergray focus:outline-none focus:ring-2 focus:ring-mainblue rounded-lg p-2 text-darkblue">
+                    <option value="">Todos</option>
+                    <option value="SP">Acre - AC</option>
+                    <option value="RJ">Alagoas - AL</option>
+                    <option value="MG">Amapá - AP</option>
+                    <option value="MG">Amazonas - AM</option>
+                    <option value="MG">Bahia - BA</option>
+                    <option value="MG">Ceará - CE</option>
+                    <option value="MG">Distrito Federal - DF</option>
+                    <option value="MG">Espírito Santo - ES</option>
+                    <option value="MG">Goiás - GO</option>
+                    <option value="MG">Maranhão - MA</option>
+                    <option value="MG">Mato Grosso - MT</option>
+                    <option value="MG">Mato Grosso do Sul - MS</option>
+                    <option value="MG">Minas Gerais - MG</option>
+                    <option value="MG">Pará - PA</option>
+                    <option value="MG">Paraíba - PB</option>
+                    <option value="MG">Paraná - PR</option>
+                    <option value="MG">Pernambuco - PE</option>
+                    <option value="MG">Piauí - PI</option>
+                    <option value="MG">Rio de Janeiro - RJ</option>
+                    <option value="MG">Rio Grande do Norte - RN</option>
+                    <option value="MG">Rio Grande do Sul - RS</option>
+                    <option value="MG">Rondônia - RO</option>
+                    <option value="MG">Roraima - RR</option>
+                    <option value="MG">Santa Catarina - SC</option>
+                    <option value="MG">Sergipe - SE</option>
+                    <option value="MG">São Paulo - SP</option>
+                    <option value="MG">Tocantins - TO</option>
+                </select>
+            </div>
+
+            <div>
+                <p class="font-semibold text-darkblue mb-3">Localização</p>
+                <input type="text" placeholder="Digite cidade ou estado"
+                    class="w-full bg-darkergray focus:outline-none focus:ring-2 focus:ring-mainblue rounded-lg p-2 text-darkblue" />
+            </div>
+
+        </div>
+
+        <div class="p-4 border-t border-stronggray flex gap-2">
+            <button id="clearFilters" type="button"
+                class="flex-1 px-4 py-2 rounded-xl border text-darkblue border-stronggray hover:bg-gray-50 font-bold">
+                Limpar
+            </button>
+            <button id="applyFilters" type="button"
+                class="flex-1 px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 font-bold">
+                Aplicar
+            </button>
+        </div>
+
+    </aside>
+
     <script src="../scripts/tema.js"></script>
-    <script src="../scripts/loadHeader.js"></script>
+    <script src="../scripts/script.loadHeader.js"></script>
     <script src="../scripts/script.landingPage.js" defer></script>
+
 </body>
 
 </html>
