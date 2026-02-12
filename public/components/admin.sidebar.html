@@ -1,0 +1,61 @@
+<aside id="sidebarAside" class="fixed left-0 top-0 w-64 h-screen bg-white border-r border-cyangrey flex flex-col z-50 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 shadow-xl lg:shadow-none">
+
+  <div class="flex items-center justify-between px-6 py-6">
+    
+    <div class="flex items-center gap-3">
+        <div class="w-16 h-16 rounded-full bg-lightgray flex items-center justify-center">
+        <img src="../../images/logo.png" alt="ReUse Logo" class="w-16 h-16 object-contain">
+        </div>
+
+        <h1 class="text-3xl font-semibold tracking-tight">
+        <span class="text-mainblue">Re</span><span class="text-darkblue">Use</span>
+        </h1>
+    </div>
+
+    <button onclick="toggleSidebar()" class="lg:hidden text-darkgray hover:text-mainblue text-2xl">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+
+  </div>
+
+  <nav class="flex-1 px-4 space-y-2">
+
+    <a href="/admin/dashboard" 
+       id="dashboard"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl text-darkgray hover:bg-darkgray/10 transition-all duration-200">
+      
+      <i class="fa-solid fa-house text-lg"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a href="/admin/usuarios" 
+       id="usuarios"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl text-darkgray hover:bg-darkgray/10 transition-all duration-200">
+      
+      <i class="fa-solid fa-users text-lg"></i>
+      <span>Usuários</span>
+    </a>
+
+    <a href="/admin/categorias" 
+       id="categorias"
+       class="flex items-center gap-3 px-4 py-3 rounded-xl text-darkgray hover:bg-darkgray/10 transition-all duration-200">
+      
+      <i class="fa-solid fa-folder text-lg"></i>
+      <span>Categorias</span>
+    </a>
+
+    <a href="/admin/pedidos"
+       id="pedidos" 
+       class="flex items-center gap-3 px-4 py-3 rounded-xl text-darkgray hover:bg-darkgray/10 transition-all duration-200">
+      
+      <i class="fa-solid fa-box text-lg"></i>
+      <span>Pedidos</span>
+    </a>
+
+  </nav>
+
+  <div class="px-6 py-4 border-t border-cyangrey text-sm text-darkcyangrey">
+    © 2026 ReUse
+  </div>
+
+</aside>

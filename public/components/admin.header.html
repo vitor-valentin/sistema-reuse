@@ -1,0 +1,49 @@
+<header class="h-20 bg-lightgray flex items-center justify-between px-4 md:px-8">
+
+  <div class="flex items-center gap-4">
+    <button onclick="toggleSidebar()" class="lg:hidden text-darkblue text-xl hover:text-mainblue">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <h1 id="page-title" class="text-lg md:text-xl font-bold text-darkblue truncate">
+        Titulo da Página
+    </h1>
+  </div>
+
+  <div class="flex items-center gap-3 md:gap-6">
+
+    <div class="relative hidden sm:block">
+      <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-darkcyangrey text-sm"></i>
+      <input 
+        type="text"
+        placeholder="Buscar..."
+        class="w-40 md:w-72 pl-10 pr-4 py-2 rounded-full bg-white border border-cyangrey focus:outline-none focus:ring-2 focus:ring-mainblue text-sm"
+      />
+    </div>
+
+    <button class="text-darkblue text-lg hover:text-mainblue transition-colors">
+      <i class="fa-regular fa-bell"></i>
+    </button>
+
+    <div class="w-px h-8 bg-cyangrey hidden sm:block"></div>
+
+    <div class="flex items-center gap-3">
+
+      <div id="user-photo" class="w-10 h-10 rounded-full bg-lightgray border border-cyangrey flex items-center justify-center text-mainblue font-semibold shrink-0">
+        NU
+      </div>
+
+      <div class="leading-tight hidden sm:block">
+        <p id="username" class="text-sm font-medium text-darkblue">
+          Nome Usuário
+        </p>
+        <p id="user-cargo" class="text-xs text-darkcyangrey">
+          Cargo Usuário
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</header>

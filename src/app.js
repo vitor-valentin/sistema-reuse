@@ -16,6 +16,7 @@ app.use("/styles", express.static(path.join(publicDir , "styles")));
 app.use("/fonts", express.static(path.join(publicDir , "fonts")));
 app.use("/images", express.static(path.join(publicDir , "images")));
 app.use("/scripts", express.static(path.join(publicDir , "scripts")));
+app.use("/components", express.static(path.join(publicDir, "components")));
 app.use(cookieParser());
 
 app.use("/login", loginRoute);

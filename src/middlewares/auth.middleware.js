@@ -71,7 +71,7 @@ export async function adminAuth(req, res, next) {
             case "pedidos":
                 if(permissions.includes("ADMIN") || permissions.includes("MANAGE_SOLICITATIONS")) permitted = true;
                 break;
-            case "dashboard":
+            default:
                 permitted = true;
                 break;
         }
