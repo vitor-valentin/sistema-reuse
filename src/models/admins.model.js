@@ -16,7 +16,7 @@ export async function getAdmin(id) {
     return rows;
 }
 
-export async function getMany(skip, limit, search = '') {
+export async function getManyUsers(skip, limit, search = '') {
     let query = "SELECT idUsuario, nome, email, cargo, status FROM tbUsuariosSistema";
     let params = [];
 
@@ -33,7 +33,7 @@ export async function getMany(skip, limit, search = '') {
     return rows;
 }
 
-export async function getTotal(search = '') {
+export async function getTotalUsers(search = '') {
     let query = 'SELECT COUNT(*) as total FROM tbUsuariosSistema';
     let params = [];
 

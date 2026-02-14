@@ -66,6 +66,12 @@ function initGlobalSearch() {
         case "usuarios":
             window.loadFunction = window.loadUsuarios;
             break;
+        case "categorias":
+            window.loadFunction = window.loadCategorias;
+            break;
+        case "pedidos":
+            window.loadFunction = window.loadPedidos;
+            break;
     }
 
     let searchTimeout;

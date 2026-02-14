@@ -52,3 +52,86 @@ export async function resetPassword(id, pass) {
         return err;
     }
 }
+
+export async function getManySolicitations(skip, limit, search = '') {
+    let query = "SELECT * FROM tbEmpresas WHERE cadastroAtivo = 0";
+    let params = [];
+
+    if(search){
+        query += ` AND razaoSocial LIKE ? OR nomeFantasia LIKE ? OR nomeFantasia LIKE ?
+        OR emailCorporativo LIKE ? OR foneCorporativo LIKE ? OR nomeResponsavel LIKE ?
+        OR cpfResponsavel LIKE ? OR cepEmpresa LIKE ? OR estado LIKE ? OR cnpj LIKE ?
+        `;
+        const searchPattern = `%${search}%`;
+        params.push(
+            searchPattern, searchPattern, searchPattern, 
+            searchPattern, searchPattern, searchPattern,
+            searchPattern, searchPattern, searchPattern, searchPattern
+        );
+    }
+
+    query += " ORDER BY idEmpresa DESC LIMIT ? OFFSET ?";
+    params.push(limit, skip);
+
+    const [rows] = await db.query(query, params);
+    return rows;
+}
+
+export async function getTotalSolicitations(search = '') {
+    let query = 'SELECT COUNT(*) as total FROM tbEmpresas WHERE cadastroAtivo = 0';
+    let params = [];
+
+    if (search) {
+        query += ` AND (razaoSocial LIKE ? OR nomeFantasia LIKE ? OR nomeFantasia LIKE ?
+        OR emailCorporativo LIKE ? OR foneCorporativo LIKE ? OR nomeResponsavel LIKE ?
+        OR cpfResponsavel LIKE ? OR cepEmpresa LIKE ? OR estado LIKE ?)
+        `;
+        const searchPattern = `%${search}%`;
+        params.push(
+            searchPattern, searchPattern, searchPattern, 
+            searchPattern, searchPattern, searchPattern,
+            searchPattern, searchPattern, searchPattern
+        );
+    }
+
+    const [total] = await db.query(query, params);
+    return total;
+}
+
+export async function getPendingSolicitationCount() {
+    const [rows] = await db.query("SELECT COUNT(*) AS total FROM tbEmpresas WHERE cadastroAtivo = 0");
+    return rows;
+}
+
+export async function getPedido(id) {
+    const [rows] = await db.query(
+        "SELECT * FROM tbEmpresas WHERE idEmpresa = ?",
+        [id]
+    );
+    return rows;
+}
+
+export async function updateSolicitationStatus(id, approved) {
+    let query;
+    
+    if(approved) query = 'UPDATE tbEmpresas SET cadastroAtivo = 1 WHERE idEmpresa = ?';
+    else query = 'DELETE FROM tbEmpresas WHERE idEmpresa = ?';
+
+    try {
+        await db.query(
+            query,
+            [id]
+        );
+        return true;
+    } catch (err) {
+        return err;
+    }
+}
+
+export async function getDocuments(id) {
+    const [rows] = await db.query(
+        "SELECT docComprovanteEndereco, docCartaoCnpj, docContratoSocial, cadastroAtivo FROM tbEmpresas WHERE idEmpresa = ?",
+        [id]
+    );
+    return rows;
+}

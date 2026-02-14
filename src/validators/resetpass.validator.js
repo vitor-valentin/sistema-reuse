@@ -4,6 +4,9 @@ import { validateCNPJ } from "../utils/documentValidators.js";
 const resetPassSchema = Joi.object({
     cnpj: Joi.string().required().custom((value, helpers) => {
         if (!validateCNPJ(value)) return helpers.message("O CNPJ inserido é inválido!")
+    }).messages({
+        'string.empty': 'O CNPJ é obrigatório',
+        'any.required': 'O CNPJ é obrigatório'
     })
 });
 
