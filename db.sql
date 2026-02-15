@@ -30,7 +30,8 @@ CREATE TABLE tbEmpresas (
     docContratoSocial VARCHAR(120) UNIQUE,
     descricao TEXT,
     dataCadastro DATETIME NOT NULL,
-    cadastroAtivo BOOLEAN NOT NULL
+    cadastroAtivo BOOLEAN NOT NULL,
+    dataAprovacao DATETIME DEFAULT NULL
 );
 
 ------------------------------------------------------------
@@ -123,7 +124,8 @@ CREATE TABLE tbNotificacoes (
 CREATE TABLE tbCategorias (
     idCategoria INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(60) NOT NULL,
-    descricao TEXT NOT NULL
+    descricao TEXT NOT NULL,
+    dataCriacao DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 ------------------------------------------------------------
@@ -327,6 +329,104 @@ SELECT
     e.estado AS estadoEmpresa
 FROM tbAnuncios a
 JOIN tbEmpresas e ON e.idEmpresa = a.idEmpresa;
+
+------------------------------------------------------------
+-- VIEW: viewVendasUltimos6Meses
+------------------------------------------------------------
+CREATE VIEW viewVendasUltimos6Meses AS
+SELECT 
+    DATE_FORMAT(dataStatus, '%Y-%m') AS mesAno,
+    COUNT(*) AS totalVendido
+FROM tbAnuncios
+WHERE status = 'vendido'
+  AND dataStatus >= DATE_SUB(LAST_DAY(CURRENT_DATE()), INTERVAL 6 MONTH)
+GROUP BY DATE_FORMAT(dataStatus, '%Y-%m')
+ORDER BY mesAno ASC;
+
+------------------------------------------------------------
+-- VIEW: viewItensAnunciadosUltimas4Semanas
+------------------------------------------------------------
+CREATE VIEW viewItensAnunciadosUltimas4Semanas AS
+SELECT 
+    CONCAT(YEAR(dataStatus), '-', WEEK(dataStatus, 1)) AS anoSemana,
+    COUNT(*) AS totalAnunciado
+FROM tbAnuncios
+WHERE status = 'ativo'
+  AND dataStatus >= DATE_SUB(CURRENT_DATE(), INTERVAL 4 WEEK)
+GROUP BY CONCAT(YEAR(dataStatus), '-', WEEK(dataStatus, 1))
+ORDER BY anoSemana ASC;
+
+------------------------------------------------------------
+-- VIEW: viewItensAnunciadosUltimas5Semanas
+------------------------------------------------------------
+CREATE OR REPLACE VIEW viewItensAnunciadosUltimas5Semanas AS
+SELECT 
+    CONCAT(YEAR(dataStatus), '-', WEEK(dataStatus, 1)) AS anoSemana,
+    COUNT(*) AS totalAnunciado
+FROM tbAnuncios
+WHERE status = 'ativo'
+  AND dataStatus >= DATE_SUB(CURRENT_DATE(), INTERVAL 5 WEEK)
+GROUP BY anoSemana
+ORDER BY anoSemana ASC;
+
+------------------------------------------------------------
+-- VIEW: viewDensidadePorEstado
+------------------------------------------------------------
+CREATE VIEW viewDensidadePorEstado AS
+SELECT 
+    e.estado,
+    COUNT(a.idAnuncio) AS totalAnuncios
+FROM tbEmpresas e
+JOIN tbAnuncios a ON e.idEmpresa = a.idEmpresa
+WHERE a.status = 'ativo'
+GROUP BY e.estado
+ORDER BY totalAnuncios DESC;
+
+------------------------------------------------------------
+-- VIEW: viewFunilConversaoTotal
+------------------------------------------------------------
+CREATE VIEW viewFunilConversaoTotal AS
+SELECT 
+    'Visualizações' AS etapa,
+    COUNT(*) AS quantidade
+FROM tbVisualizacoesAnuncios
+UNION ALL
+SELECT 
+    'Interesses (Chat)' AS etapa,
+    COUNT(DISTINCT idConversa) AS quantidade
+FROM tbMensagens;
+
+------------------------------------------------------------
+-- VIEW: viewItensPorCategoriaTop5
+------------------------------------------------------------
+CREATE VIEW viewItensPorCategoriaTop5 AS
+(
+    SELECT 
+        c.nome AS categoria,
+        COUNT(a.idAnuncio) AS totalAtivos
+    FROM tbCategorias c
+    INNER JOIN tbAnuncios a ON c.idCategoria = a.idCategoria
+    WHERE a.status = 'ativo'
+    GROUP BY c.idCategoria
+    ORDER BY totalAtivos DESC
+    LIMIT 5
+)
+UNION ALL
+(
+    SELECT 
+        'Outros' AS categoria,
+        SUM(totalAtivos) as totalAtivos
+    FROM (
+        SELECT COUNT(a.idAnuncio) AS totalAtivos
+        FROM tbCategorias c
+        INNER JOIN tbAnuncios a ON c.idCategoria = a.idCategoria
+        WHERE a.status = 'ativo'
+        GROUP BY c.idCategoria
+        ORDER BY totalAtivos DESC
+        OFFSET 5 ROWS FETCH NEXT 999999 ROWS ONLY
+    ) AS subquery
+    HAVING totalAtivos > 0
+);
 
 ------------------------------------------------------------
 -- TRIGGER: criar config padrão ao registrar empresa

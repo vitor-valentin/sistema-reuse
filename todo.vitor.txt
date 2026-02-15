@@ -1,0 +1,4 @@
+-- TODO LIST
+
+- Create messages routes
+- Load private key on login

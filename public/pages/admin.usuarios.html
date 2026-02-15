@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <link href="/styles/styles.output.css" rel="stylesheet" type="text/css" />
+    <script src="https://kit.fontawesome.com/5b13c47c87.js" crossorigin="anonymous"></script>
+    <title>Admin - ReUse | Usuários</title>
+</head>
+<body class="bg-gray-100">
+
+    <div id="sidebar"></div>
+    
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+    <div class="lg:ml-64 min-h-screen flex flex-col transition-all duration-300">
+
+        <div id="header"></div>
+
+        <main id="content" class="p-4 md:p-6">      
+            <div class="space-y-4">
+
+                <div class="flex justify-end">
+                    <button onclick="toggleModal()" class="bg-mainblue hover:opacity-90 text-white px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-all shadow-sm">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                        Novo Usuário
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-cyangrey overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left whitespace-nowrap">
+                            <thead class="text-darkcyangrey text-sm font-semibold border-b border-cyangrey">
+                                <tr>
+                                    <th class="p-5 font-bold text-darkblue">Nome</th>
+                                    <th class="p-5 font-bold text-darkblue">E-mail</th>
+                                    <th class="p-5 font-bold text-darkblue">Cargo</th>
+                                    <th class="p-5 font-bold text-darkblue">Status</th>
+                                    <th class="p-5 text-right font-bold text-darkblue">Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="usersTableBody" class="divide-y divide-cyangrey">
+                                <tr class="hover:bg-lightgray transition-colors">
+                                    <td class="p-5 text-darkcyangrey">Nenhum usuário encontrado</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="paginationControls" class="flex justify-end items-center gap-2 pt-4">
+                    <button class="w-9 h-9 flex items-center justify-center border cursor-not-allowed border-cyangrey bg-transparent text-darkblue/20 rounded-lg transition-colors">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    
+                    <button class="w-9 h-9 flex items-center justify-center bg-mainblue text-white rounded-lg font-bold">
+                        1
+                    </button>
+                    
+                    <button class="w-9 h-9 flex items-center justify-center border-cyangrey bg-white text-darkblue hover:bg-lightgray rounded-lg font-bold transition-colors border">
+                        2
+                    </button>
+
+                    <button class="w-9 h-9 flex items-center justify-center border-cyangrey bg-white text-darkblue hover:bg-lightgray rounded-lg transition-colors border">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="modalNovoUsuario" class="fixed inset-0 z-60 hidden overflow-y-auto items-start sm:items-center justify-center p-0 bg-darkblue/40 backdrop-blur-sm">                
+                
+                <div class="relative bg-white w-full max-w-lg min-h-screen md:mt-10 lg:mt-0 md:min-h-0 md:rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-darkblue">Criar Usuário</h2>
+                                <p class="text-sm text-darkcyangrey">Adicione um novo usuário ao sistema administrativo.</p>
+                            </div>
+                            <button onclick="toggleModal()" class="text-darkcyangrey hover:text-red transition-colors">
+                                <i class="fa-solid fa-xmark text-xl"></i>
+                            </button>
+                        </div>
+
+                        <form id="formUsuario" class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-medium text-darkblue mb-1.5">Nome Completo</label>
+                                <input type="text" name="nome" placeholder="Digite o nome completo" 
+                                    class="w-full px-4 py-2.5 rounded-xl border border-cyangrey focus:ring-2 focus:ring-mainblue outline-none text-sm transition-all" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-darkblue mb-1.5">E-mail</label>
+                                <input type="email" name="email" placeholder="usuario@exemplo.com" 
+                                    class="w-full px-4 py-2.5 rounded-xl border border-cyangrey focus:ring-2 focus:ring-mainblue outline-none text-sm transition-all" required>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-darkblue mb-1.5">Cargo</label>
+                                    <input type="text" name="cargo" placeholder="Ex: Administrador" 
+                                        class="w-full px-4 py-2.5 rounded-xl border border-cyangrey focus:ring-2 focus:ring-mainblue outline-none text-sm transition-all" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-darkblue mb-1.5">Status</label>
+                                    <select name="status" class="w-full px-4 py-2.5 rounded-xl border border-cyangrey focus:ring-2 focus:ring-mainblue outline-none text-sm bg-white transition-all">
+                                        <option value="Ativo">Ativo</option>
+                                        <option value="Inativo">Inativo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-darkblue mb-1.5">Senha</label>
+                                <input id="inputSenha" type="password" name="senha" placeholder="Deixe em branco para gerar uma senha aleatória" 
+                                    class="w-full px-4 py-2.5 rounded-xl border border-cyangrey focus:ring-2 focus:ring-mainblue outline-none text-sm transition-all">
+                                
+                                <div id="passwordRequirements" class="hidden mt-2 space-y-1">
+                                    <p id="req-length" class="text-xs text-red transition-colors flex items-center gap-1">✕ Mínimo 8 caracteres</p>
+                                    <p id="req-upperlower" class="text-xs text-red transition-colors flex items-center gap-1">✕ Letras maiúsculas e minúsculas</p>
+                                    <p id="req-number" class="text-xs text-red transition-colors flex items-center gap-1">✕ Pelo menos um número</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-darkblue mb-3">Permissões</label>
+                                <div class="space-y-3">
+                                    <label class="flex items-center gap-3 cursor-pointer group">
+                                        <input name="isAdmin" onclick="toggleAdmin()" id="adminToggle" type="checkbox" class="w-5 h-5 rounded border-cyangrey text-mainblue focus:ring-mainblue transition-all">
+                                        <span class="text-sm text-darkcyangrey group-hover:text-darkblue">Administrador</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 cursor-pointer group">
+                                        <input name="manageCategories" id="categoriasToggle" type="checkbox" class="w-5 h-5 rounded border-cyangrey text-mainblue focus:ring-mainblue transition-all">
+                                        <span class="text-sm text-darkcyangrey group-hover:text-darkblue">Gerenciar Categorias</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 cursor-pointer group">
+                                        <input name="manageSolicitations" id="pedidosToggle" type="checkbox" class="w-5 h-5 rounded border-cyangrey text-mainblue focus:ring-mainblue transition-all">
+                                        <span class="text-sm text-darkcyangrey group-hover:text-darkblue">Gerenciar Pedidos de Cadastro</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-end gap-3 pt-4 border-t border-cyangrey">
+                                <button type="button" onclick="toggleModal()" 
+                                        class="px-6 py-2.5 rounded-xl text-darkcyangrey hover:bg-lightgray font-medium transition-all">
+                                    Cancelar
+                                </button>
+                                <button type="submit" 
+                                        class="px-8 py-2.5 rounded-xl bg-mainblue text-white font-medium hover:opacity-90 shadow-lg shadow-mainblue/20 transition-all">
+                                    Criar Usuário
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="/scripts/components/admin.sidebar.js"></script>
+    <script type="module" src="/scripts/components/admin.header.js"></script>
+    <script type="module" src="/scripts/script.admin.usuarios.js"></script>
+</body>
+</html>

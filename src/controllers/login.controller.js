@@ -4,12 +4,13 @@ import jwt from "jsonwebtoken";
 
 import { publicDir } from "../utils/paths.js";
 import { env } from "../config/env.js";
-import { generateToken, generateTFToken } from "../utils/generateToken.js";
+import { generateToken } from "../utils/generateToken.js";
 import { sendTwoFactorEmail } from "../utils/sendMail.js";
 
 import { getEmpresaCredentials, getEmpresa } from "../models/empresas.model.js";
 import { getEmpresaConfig } from "../models/configs.model.js";
 import { createVerificationCode, getLastVerificationCode, deleteUsedCode } from "../models/verification.model.js";
+import { getAdmin, getAdminCredentials } from "../models/admins.model.js";
 
 async function generateAndSendCode(empresaId, email, nome) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -41,9 +42,11 @@ export default {
     async login(req, res) {
         const { login, password } = req.body;
         try {
-            const result = await getEmpresaCredentials(login);
+            var result = await getEmpresaCredentials(login);
+            const isAdmin = await getAdminCredentials(login);
+            if(isAdmin.length > 0) result = isAdmin;
             
-            if (result.length == 0 || !result[0].cadastroAtivo)
+            if (result.length == 0 || (!result[0].cadastroAtivo && isAdmin.length == 0) || (!result[0].status && isAdmin.length > 0))
                 return res
                     .status(404)
                     .json({ error: "E-mail ou senha incorretos" });
@@ -55,36 +58,44 @@ export default {
                     .status(404)
                     .json({ error: "E-mail ou senha incorretos" });
 
-            const config = await getEmpresaConfig(result[0].idEmpresa);
+            const payload = { id: result[0].idEmpresa ? result[0].idEmpresa : result[0].idUsuario };
 
-            if (result.length == 0)
-                return res
-                    .status(500)
-                    .json({ error: "Erro ao carregar configurações, por favor, entre em contato com nosso suporte." });
+            let token;
+            if(isAdmin.length == 0){
+                const config = await getEmpresaConfig(result[0].idEmpresa);
 
-            const payload = { id: result[0].idEmpresa };
-                    
-            if (config[0].segAutDuasEtapas) {
-                await generateAndSendCode(
-                    result[0].idEmpresa,
-                    result[0].emailCorporativo,
-                    result[0].nomeResponsavel
-                );
+                if (config.length == 0)
+                    return res
+                        .status(500)
+                        .json({ error: "Erro ao carregar configurações, por favor, entre em contato com nosso suporte." });
+                        
+                if (config[0].segAutDuasEtapas) {
+                    await generateAndSendCode(
+                        result[0].idEmpresa,
+                        result[0].emailCorporativo,
+                        result[0].nomeResponsavel
+                    );
 
-                const tfToken = generateTFToken(payload);
-                res.cookie("reuseTFToken", tfToken, {
-                    httpOnly: true,
-                    maxAge: env.TOKEN_EXPIRY
-                });
-                return res.status(301).send();
+                    const tfToken = generateToken(payload, env.TFAUTH_JWT_SECRET);
+                    res.cookie("reuseTFToken", tfToken, {
+                        httpOnly: true,
+                        maxAge: env.TOKEN_EXPIRY
+                    });
+                    return res.status(301).send();
+                }
+                
+                payload.role = "user";
+            } else {
+                payload.role = "admin";
             }
-            
-            const token = generateToken(payload);
+
+            token = generateToken(payload, env.JWT_SECRET);
 
             res.cookie("reuseToken", token, {
                 httpOnly: true,
                 maxAge: env.TOKEN_EXPIRY,
             });
+            
             res.json({ message: "Login realizado com sucesso!" });
         } catch (err) {
             res.status(500).json({ error: err });
@@ -146,7 +157,7 @@ export default {
             if(now > expiration) 
                 return res.status(400).json({error: "Código expirado."});
 
-            const finalToken = generateToken({id: payload.id});
+            const finalToken = generateToken({id: payload.id}, env.JWT_SECRET);
 
             res.clearCookie("reuseTFToken");
             res.cookie("reuseToken", finalToken, {

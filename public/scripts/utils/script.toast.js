@@ -53,5 +53,55 @@ export const toast = {
             }, { once: true });
 
         }, duration);
+    },
+
+    confirm(message) {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 bg-darkblue/20 backdrop-blur-sm z-[110] flex items-center justify-center p-4';
+            
+            const box = document.createElement('div');
+            box.className = 'bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full transform transition-all scale-95 opacity-0 border border-cyangrey';
+            
+            box.innerHTML = `
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-lightred text-red rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-darkblue mb-2">Tem certeza?</h3>
+                    <p class="text-darkcyangrey mb-6">${message}</p>
+                    <div class="flex gap-3">
+                        <button id="toast-cancel" class="flex-1 px-4 py-2.5 rounded-xl text-darkcyangrey hover:bg-lightgray font-medium transition-all">
+                            Cancelar
+                        </button>
+                        <button id="toast-confirm" class="flex-1 px-4 py-2.5 rounded-xl bg-red text-white font-medium hover:opacity-90 shadow-lg shadow-red/20 transition-all">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+
+            setTimeout(() => {
+                box.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+
+            const close = (result) => {
+                box.classList.add('scale-95', 'opacity-0');
+                overlay.classList.add('opacity-0');
+                
+                setTimeout(() => {
+                    overlay.remove();
+                    resolve(result);
+                }, 200);
+            };
+
+            overlay.querySelector('#toast-confirm').onclick = () => close(true);
+            overlay.querySelector('#toast-cancel').onclick = () => close(false);
+            
+            overlay.onclick = (e) => { if(e.target === overlay) close(false); };
+        });
     }
 };
